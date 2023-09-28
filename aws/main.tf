@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     local = {
-      source = "hashicorp/local"
+      source  = "hashicorp/local"
       version = "2.4.0"
     }
   }
@@ -18,7 +18,7 @@ data "aws_region" "current" {}
 
 # Create the AWS blueprints
 module "port_blueprints_creator" {
-  source = "./aws_blueprints_template"
+  source    = "./aws_blueprints_template"
   resources = var.resources
 }
 
@@ -82,11 +82,11 @@ resource "local_file" "event_rules" {
 
 # Deploy the AWS exporter application
 module "port_aws_exporter" {
-  source  = "port-labs/port-exporter/aws"
-  version = "0.1.2"
+  source        = "port-labs/port-exporter/aws"
+  version       = "0.1.2"
   config_json   = local.combined_config
   lambda_policy = local.combined_policies
-  bucket_name = local.bucket_name
+  bucket_name   = local.bucket_name
 }
 
 resource "aws_cloudformation_stack" "port-aws-exporter-event-rules" {
@@ -97,12 +97,12 @@ resource "aws_cloudformation_stack" "port-aws-exporter-event-rules" {
   }
 
   template_body = local.combined_event_rules
-  depends_on = [module.port_aws_exporter]
+  depends_on    = [module.port_aws_exporter]
 }
 
 ## Invoke the exporter lambda function at the end of the deployment
 resource "aws_lambda_invocation" "first_exporter_invocation" {
   function_name = module.port_aws_exporter.lambda_function_arn
-  count = var.invoke_function ? 1 : 0
-  input = jsonencode({})
+  count         = var.invoke_function ? 1 : 0
+  input         = jsonencode({})
 }

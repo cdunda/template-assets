@@ -87,10 +87,10 @@ resource "port-labs_blueprint" "dynamodb_table" {
   }
 
   relations {
-     target     = "region"
-     title      = "Region"
-     identifier = "region"
-     many       = false
-     required   = false
-   }
+    target     = "region"
+    title      = "Region"
+    identifier = "region"
+    many       = false
+    required   = false
+  }
 }

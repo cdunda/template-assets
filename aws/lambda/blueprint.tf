@@ -95,10 +95,10 @@ resource "port-labs_blueprint" "lambda_function" {
   }
 
   relations {
-       target     = "region"
-       title      = "Region"
-       identifier = "region"
-       many       = false
-       required   = false
-     }
+    target     = "region"
+    title      = "Region"
+    identifier = "region"
+    many       = false
+    required   = false
+  }
 }

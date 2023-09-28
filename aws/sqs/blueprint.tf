@@ -68,10 +68,10 @@ resource "port-labs_blueprint" "sqs_queue" {
   }
 
   relations {
-       target     = "region"
-       title      = "Region"
-       identifier = "region"
-       many       = false
-       required   = false
-     }
+    target     = "region"
+    title      = "Region"
+    identifier = "region"
+    many       = false
+    required   = false
+  }
 }

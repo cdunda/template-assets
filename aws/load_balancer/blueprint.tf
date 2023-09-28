@@ -18,11 +18,11 @@ resource "port-labs_blueprint" "loadBalancer" {
     title      = "State"
     enum       = ["provisioning", "active", "failed", "active_impaired"]
     enum_colors = {
-          "provisioning" = "yellow",
-          "active" = "green",
-          "failed" =  "red",
-          "active_impaired" =  "orange"
-        }
+      "provisioning"    = "yellow",
+      "active"          = "green",
+      "failed"          = "red",
+      "active_impaired" = "orange"
+    }
   }
 
   properties {
@@ -92,13 +92,13 @@ resource "port-labs_blueprint" "loadBalancer" {
     type       = "array"
     title      = "Tags"
   }
-  
+
   relations {
-      target     = "region"
-      title      = "Region"
-      identifier = "region"
-      many       = false
-      required   = false
-    }
+    target     = "region"
+    title      = "Region"
+    identifier = "region"
+    many       = false
+    required   = false
+  }
 
 }

@@ -18,13 +18,13 @@ resource "port-labs_blueprint" "ec2_instance" {
     title      = "State"
     enum       = ["pending", "running", "shutting-down", "terminated", "stopping", "stopped"]
     enum_colors = {
-          "pending" = "yellow",
-          "running" = "green",
-          "shutting-down" =  "pink",
-          "terminated" =  "red",
-          "stopping" = "orange",
-          "stopped" = "purple"
-        }
+      "pending"       = "yellow",
+      "running"       = "green",
+      "shutting-down" = "pink",
+      "terminated"    = "red",
+      "stopping"      = "orange",
+      "stopped"       = "purple"
+    }
   }
 
   properties {
@@ -70,13 +70,13 @@ resource "port-labs_blueprint" "ec2_instance" {
     type       = "array"
     title      = "Tags"
   }
-  
+
   relations {
-      target     = "region"
-      title      = "Region"
-      identifier = "region"
-      many       = false
-      required   = false
-    }
+    target     = "region"
+    title      = "Region"
+    identifier = "region"
+    many       = false
+    required   = false
+  }
 
 }

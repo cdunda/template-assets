@@ -50,12 +50,12 @@ resource "port-labs_blueprint" "sns_topic" {
     identifier = "region"
     many       = false
     required   = false
- }
+  }
   relations {
-   target     = "sqs"
-   title      = "SQS"
-   identifier = "sqs"
-   many       = true
-   required   = false
- }
+    target     = "sqs"
+    title      = "SQS"
+    identifier = "sqs"
+    many       = true
+    required   = false
+  }
 }

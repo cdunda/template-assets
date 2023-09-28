@@ -84,10 +84,10 @@ resource "port-labs_blueprint" "ecs_service" {
   }
 
   relations {
-       target     = "region"
-       title      = "Region"
-       identifier = "region"
-       many       = false
-       required   = false
-     }
+    target     = "region"
+    title      = "Region"
+    identifier = "region"
+    many       = false
+    required   = false
+  }
 }
