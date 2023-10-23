@@ -1,0 +1,6 @@
+[
+  "cloudfront:GetDistribution",
+  "cloudfront:GetDistributionConfig",
+  "cloudfront:ListDistributions",
+  "cloudfront:ListTagsForResource"
+]

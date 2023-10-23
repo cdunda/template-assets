@@ -1,0 +1,21 @@
+{
+  "kind": "AWS::ACM::Certificate",
+  "port": {
+    "entity": {
+      "mappings": [
+        {
+          "identifier": ".CertificateArn",
+          "title": ".DomainName",
+          "blueprint": "ssl_certificate",
+          "properties": {
+            "domainName": ".DomainName",
+            "subjectAlternativeNames": ".SubjectAlternativeNames",
+            "status": ".Status",
+            "type": ".Type",
+            "arn": ".CertificateArn"
+          }
+        }
+      ]
+    }
+  }
+}

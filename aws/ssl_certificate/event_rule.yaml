@@ -1,0 +1,34 @@
+ACMCertificateEventRule:
+  Type: AWS::Events::Rule
+  Properties:
+    EventBusName: default
+    EventPattern:
+      source:
+        - aws.acm
+      detail-type:
+        - AWS API Call via CloudTrail
+      detail:
+        eventSource:
+          - acm.amazonaws.com
+        eventName:
+          - prefix: RequestCertificate
+          - prefix: DeleteCertificate
+    Name: port-aws-exporter-sync-acm-trails
+    State: ENABLED
+    Targets:
+      - Id: PortAWSExporterEventsQueue
+        Arn:
+          Fn::ImportValue:
+            Fn::Sub: ${PortAWSExporterStackName}-EventsQueueARN
+        InputTransformer:
+          InputPathsMap:
+            awsRegion: $.detail.awsRegion
+            eventName: $.detail.eventName
+            certificateArn: $.detail.responseElements.certificateArn
+          InputTemplate: |-
+            {
+              "resource_type": "AWS::ACM::Certificate",
+              "region": "\"<awsRegion>\"",
+              "identifier": "\"<certificateArn>\"",
+              "action": "if \"<eventName>\" | test(\"DeleteCertificate[^a-zA-Z]*$\") then \"delete\" else \"upsert\" end"
+            }

@@ -1,0 +1,5 @@
+[
+  "acm:DescribeCertificate",
+  "acm:ListCertificates",
+  "acm:ListTagsForCertificate"
+]

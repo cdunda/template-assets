@@ -7,10 +7,16 @@ terraform {
   }
 }
 
-resource "port-labs_blueprint" "s3_bucket" {
-  title      = "S3 Bucket"
+resource "port-labs_blueprint" "object_storage" {
+  title      = "Object Storage"
   icon       = "Bucket"
-  identifier = "s3_bucket"
+  identifier = "object_storage"
+
+  properties {
+    identifier = "saas_provider"
+    type       = "string"
+    title      = "SaaS Provider"
+  }
 
   properties {
     identifier = "link"
@@ -60,5 +66,13 @@ resource "port-labs_blueprint" "s3_bucket" {
     identifier = "arn"
     type       = "string"
     title      = "ARN"
+  }
+
+  relations {
+    identifier = "region"
+    many       = false
+    required   = false
+    target     = "region"
+    title      = "Region"
   }
 }

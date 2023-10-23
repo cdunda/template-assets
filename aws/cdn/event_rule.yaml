@@ -1,0 +1,35 @@
+CloudFrontEventRule:
+  Type: AWS::Events::Rule
+  Properties:
+    EventBusName: default
+    EventPattern:
+      source:
+        - aws.cloudfront
+      detail-type:
+        - AWS API Call via CloudTrail
+      detail:
+        eventSource:
+          - cloudfront.amazonaws.com
+        eventName:
+          - prefix: CreateDistribution
+          - prefix: UpdateDistribution
+          - prefix: DeleteDistribution
+    Name: port-aws-exporter-sync-cloudfront-trails
+    State: ENABLED
+    Targets:
+      - Id: PortAWSExporterEventsQueue
+        Arn:
+          Fn::ImportValue:
+            Fn::Sub: ${PortAWSExporterStackName}-EventsQueueARN
+        InputTransformer:
+          InputPathsMap:
+            awsRegion: $.detail.awsRegion
+            eventName: $.detail.eventName
+            distributionId: $.detail.requestParameters.id
+          InputTemplate: |-
+            {
+              "resource_type": "AWS::CloudFront::Distribution",
+              "region": "\"<awsRegion>\"",
+              "identifier": "\"<distributionId>\"",
+              "action": "if \"<eventName>\" | test(\"DeleteDistribution[^a-zA-Z]*$\") then \"delete\" else \"upsert\" end"
+            }

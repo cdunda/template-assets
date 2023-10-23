@@ -1,0 +1,35 @@
+Route53HostedZoneEventRule:
+  Type: AWS::Events::Rule
+  Properties:
+    EventBusName: default
+    EventPattern:
+      source:
+        - aws.route53
+      detail-type:
+        - AWS API Call via CloudTrail
+      detail:
+        eventSource:
+          - route53.amazonaws.com
+        eventName:
+          - prefix: CreateHostedZone
+          - prefix: DeleteHostedZone
+          - prefix: ChangeResourceRecordSets
+    Name: port-aws-exporter-sync-route53-trails
+    State: ENABLED
+    Targets:
+      - Id: PortAWSExporterEventsQueue
+        Arn:
+          Fn::ImportValue:
+            Fn::Sub: ${PortAWSExporterStackName}-EventsQueueARN
+        InputTransformer:
+          InputPathsMap:
+            awsRegion: $.detail.awsRegion
+            eventName: $.detail.eventName
+            hostedZoneId: $.detail.requestParameters.id
+          InputTemplate: |-
+            {
+              "resource_type": "AWS::Route53::HostedZone",
+              "region": "\"<awsRegion>\"",
+              "identifier": "\"<hostedZoneId>\"",
+              "action": "if \"<eventName>\" | test(\"DeleteHostedZone[^a-zA-Z]*$\") then \"delete\" else \"upsert\" end"
+            }

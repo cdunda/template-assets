@@ -6,8 +6,9 @@
         {
           "identifier": ".BucketName",
           "title": ".BucketName",
-          "blueprint": "s3_bucket",
+          "blueprint": "object_storage",
           "properties": {
+            "saas_provider": "\"AWS\"",
             "link": "\"https://console.aws.amazon.com/go/view?arn=\" + .Arn",
             "regionalDomainName": ".RegionalDomainName",
             "versioningStatus": ".VersioningConfiguration.Status",

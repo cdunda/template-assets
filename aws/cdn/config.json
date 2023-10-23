@@ -1,0 +1,29 @@
+{
+  "kind": "AWS::CloudFront::Distribution",
+  "port": {
+    "entity": {
+      "mappings": [
+        {
+          "identifier": ".Id",
+          "title": ".DistributionConfig.Comment",
+          "blueprint": "cdn",
+          "properties": {
+            "domainName": ".DomainName",
+            "aliases": ".DistributionConfig.Aliases",
+            "enabled": ".DistributionConfig.Enabled",
+            "comment": ".DistributionConfig.Comment",
+            "originConfig": ".DistributionConfig.Origins",
+            "defaultCacheBehavior": ".DistributionConfig.DefaultCacheBehavior",
+            "cacheBehaviors": ".DistributionConfig.CacheBehaviors",
+            "loggingConfig": ".DistributionConfig.Logging",
+            "viewerProtocolPolicy": ".DistributionConfig.DefaultCacheBehavior.ViewerProtocolPolicy"
+          },
+          "relations": {
+            "ssl_certificate": ".DistributionConfig.ViewerCertificate.AcmCertificateArn",
+            "object_storages": ".DistributionConfig.Origins |map(select(.S3OriginConfig != null) | .DomainName| split(\".s3.\")[0])"
+          }
+        }
+      ]
+    }
+  }
+}

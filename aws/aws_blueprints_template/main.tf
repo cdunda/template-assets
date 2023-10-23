@@ -34,6 +34,18 @@ resource "port-labs_entity" "current_region" {
 }
 
 
+module "port_ssl_certificate" {
+  source     = "../ssl_certificate"
+  count      = contains(var.resources, "ssl_certificate") ? 1 : 0
+  depends_on = [port-labs_blueprint.region]
+}
+
+module "port_cdn" {
+  source     = "../cdn"
+  count      = contains(var.resources, "cdn") ? 1 : 0
+  depends_on = [port-labs_blueprint.region]
+}
+
 module "port_dynamodb_table" {
   source     = "../dynamodb_table"
   count      = contains(var.resources, "dynamodb_table") ? 1 : 0
@@ -58,9 +70,15 @@ module "port_rds_db_instance" {
   depends_on = [port-labs_blueprint.region]
 }
 
-module "port_s3_bucket" {
-  source     = "../s3_bucket"
-  count      = contains(var.resources, "s3_bucket") ? 1 : 0
+module "port_hosted_zone" {
+  source     = "../hosted_zone"
+  count      = contains(var.resources, "hosted_zone") ? 1 : 0
+  depends_on = [port-labs_blueprint.region]
+}
+
+module "port_object_storage" {
+  source     = "../object_storage"
+  count      = contains(var.resources, "object_storage") ? 1 : 0
   depends_on = [port-labs_blueprint.region]
 }
 

@@ -28,7 +28,8 @@ jobs:
             git config --local user.name "GitHub Action"
             git add -A
             git commit -m "Apply terraform fmt"
-            git push origin $(git symbolic-ref --short HEAD)
+            git rebase -i HEAD~2 --autosquash -Xours
+            git push origin $(git symbolic-ref --short HEAD) --force-with-lease
           else
             echo "Code is already properly formatted"
           fi

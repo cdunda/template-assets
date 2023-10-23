@@ -1,0 +1,22 @@
+{
+  "kind": "AWS::Route53::HostedZone",
+  "port": {
+    "entity": {
+      "mappings": [
+        {
+          "identifier": ".Id",
+          "title": ".Name",
+          "blueprint": "hosted_zone",
+          "properties": {
+            "name": ".Name",
+            "nameServers": ".NameServers",
+            "zoneType": "if .VPCs[0].VPCId then \"Private\" else \"Public\" end",
+            "vpcId": ".VPCs[0].VPCId",
+            "comment": ".HostedZoneConfig.Comment",
+            "saas_provider": "\"AWS\""
+          }
+        }
+      ]
+    }
+  }
+}
